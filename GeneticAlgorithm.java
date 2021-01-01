@@ -1,19 +1,28 @@
 public class GeneticAlogorithm {
     
 //from here, we initialize the starting random population, also contains selection, recombination, and mutation functions I think
-    
-    //initial pop
-    Population population = new Population();
-    //population of offspring
-    Population offspring = new Population();
-    //how do we put idnividuals created into new population?
-    int generationCount = 0;
+    public GeneticAlogorithm() {
 
 
-    population.generateInitialPop();
-    population.sortPop();
+        //initialize a population
+        Population initialPop = new Population();
+        initialPop.generateInitialPop();
+        Individual mostFit = initialPop.getFittestIndv();
+
+        //population of offspring might move this
+        Population offspringPop = new Population();
+        int generationCount = 0;
+    }
+
+
     
-    Individual mostFit = population.getFittestIndv();
+    
+    
+
+
+    
+    
+    
     
     
 
