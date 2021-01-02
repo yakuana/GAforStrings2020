@@ -6,6 +6,9 @@ CS 2400 FALL 2020
 ASSIGNMENT 4: GENETIC ALGORITHMS
 Ya'kuana Davis and Kayla Stuhlmann
 
+GOAL STRING: 
+"I think this is a reasonable medium sized string!!"
+
 Experiment Results:
 
 SELECTION METHODS
@@ -22,6 +25,5 @@ make 3 of our own
 
 
 
-
-
 Summary of Code:
+This code provides three different selection sorts for a given generation of individuals. In doing so, we are able to compare how close our genetic algorithm comes to producing the goal string, "I think this is a reasonable medium sized string!!"
