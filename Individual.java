@@ -1,8 +1,8 @@
 public class Individual {
 
-    String target;  //just put this here for now, probs doesn't go here
-    String indvString; 
-    Integer fitness; 
+    String target;         // target string  
+    String indvString;     // individual's string  
+    Integer fitness;       // number of characters that match target string in individual string  
 
     public Individual(String targetIn, String indv) {
             target = targetIn;
@@ -31,7 +31,7 @@ public class Individual {
 
     //returns fitness if we need it outside of this class
     public int getFitness() {
-        return fitness; //or return this.calculateFitness()? idk how to java
+        return fitness; 
     }
 
     public String getIndv() {

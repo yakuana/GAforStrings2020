@@ -2,14 +2,17 @@ import java.util.Random;
 
 public class GA {
 
+    // target string
+    final String TARGET = "I think this is a reasonable medium sized string!!";
+
     Individual mostFit;
-    int popSize;
-    String selType;         //what type of selection we will do
-    float crossoverProb;    //probability that we will crossover
-    float mutationProb;     //probability that we will perform mutation
+    int popSize; 
     int maxGens;            //max num of generations before algo stops
     int printInt;           //interval of how many generation created between prints
-    final String TARGET = "I think this is a reasonable medium sized string!!";
+    float crossoverProb;    //probability that we will crossover
+    float mutationProb;     //probability that we will perform mutation
+    String selType;         //type of selection we will do
+    
 
     //Constructor method
     public GA(int populationSize, String selectionType, float crossoverProbability, float mutationProbability, int maxGenerations, int printInterval) {
