@@ -1,8 +1,7 @@
 /* The Population class stores all of the Individual Objects within an array. */
 
 import java.util.Random; 
-import java.util.Arrays;
-import java.util.Comparator;
+
 
 public class Population {
 
@@ -66,7 +65,27 @@ public class Population {
 
     public void sortPop() {
         // sort individuals in population based on fitness
-        Arrays.sort(individualList, Comparator.comparing(Individual :: getFitness));
+        //Arrays.sort(individualList, Comparator.comparing(Individual :: getFitness));   
+        selectionSort(); 
+    }
+
+    public void swap(int i, int j) {
+        Individual temp = individualList[i];
+        individualList[i] = individualList[j];
+        individualList[j] = temp;
+    }
+
+    public void selectionSort() {
+        for (int unsorted = individualList.length; unsorted > 0; unsorted--) {
+            
+            int largest = 0; // index of largest value this pass
+            for (int i = 1; i < unsorted; i++) {
+                if (individualList[largest].getFitness() < individualList[i].getFitness()) {
+                    largest = i; // found a new index of largest value
+                }
+            }
+            swap(largest, unsorted - 1); // put the largest value into position 
+        }
     }
 
 
