@@ -5,7 +5,7 @@ public class GA {
     // target string
     final String TARGET = "I think this is a reasonable medium sized string!!";
 
-    Individual mostFit;     //most fit individual OVERALL in genetic algorithm
+    //Individual mostFit;     //most fit individual OVERALL in genetic algorithm
     int popSize;            //population size 
     int maxGens;            //max num of generations before algo stops
     int printerval;         //interval of how many generation created between prints
@@ -128,7 +128,9 @@ public class GA {
         String SPACE = " ";
         String ALL_ASCII = LOWER_CASE + UPPER_CASE + DIGITS + SYMBOLS + SPACE; 
 
-        return ALL_ASCII.charAt(index);
+        char[] alphabet = new char[ALL_ASCII.length()];
+
+        return alphabet[index];
     }
 
     //mutation method
@@ -222,17 +224,29 @@ public class GA {
     public void generations(Population population) {
         //run ga through generations until it hits maxGen OR the individual of best fit for that generation is equal to the target 
         //print out data every time generation count hits printerval
+
         Population currentPop = population;  
-        int genCount = 0;
-        Individual fittestInPop;
-        mostFit = population.individualList[0];
+
+        Individual mostFit = population.getFittestIndv();             //most fit individual OVERALL in genetic algorithm
+        Individual fittestInPop;        //most fit individual in currentPop
+        
+
+        int genCount = 0;       //counts all generations done
+        int genMostFit = 0;     //counts generation that has the mostFit individual so far
+
+        
+        //mostFit = population.individualList[0];
 
         // create maxGens (max generation) amount of populations
         while (genCount <= maxGens) {
             Population offspring = doGeneration(currentPop); 
             fittestInPop = offspring.getFittestIndv();
-            int genMostFit = 0;         
-               
+                    
+             
+            if (fittestInPop.getFitness() > mostFit.getFitness()) {
+                mostFit = fittestInPop; 
+                genMostFit = genCount;
+            }
 
             if (fittestInPop.getIndv().equals(TARGET)) {
                 System.out.println("Hit the Target!!");
@@ -241,9 +255,6 @@ public class GA {
                 System.out.println(String.format("Generation Found:      %x", genMostFit));
                 System.out.println(String.format("Score: %x/ %x = %x%", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
                 break;
-            } else if (fittestInPop.getFitness() > mostFit.getFitness()) {
-                mostFit = fittestInPop; 
-                genMostFit = genCount;
             }
             
             // if at interval, print the fittest individual in that currentPop
