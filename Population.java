@@ -108,9 +108,11 @@ public class Population {
 
     // return individual with greatest fitness
     public Individual getFittestIndv() {
-        this.sortPop();
-        int mostFitIndex = popSize - 1;
-        return individualList[mostFitIndex];
+        Individual fittest;
+        sortPop();
+        //int mostFitIndex = popSize - 1;
+        fittest = individualList[0];            //this is the problem!!! right now I changed the index to 0!
+        return fittest;
     }
 
     

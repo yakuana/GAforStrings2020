@@ -227,8 +227,8 @@ public class GA {
 
         Population currentPop = population;  
 
-        Individual mostFit = population.getFittestIndv();             //most fit individual OVERALL in genetic algorithm
-        Individual fittestInPop;        //most fit individual in currentPop
+        Individual mostFit = currentPop.getFittestIndv();             //most fit individual OVERALL in genetic algorithm
+        Individual fittestInPop = currentPop.getFittestIndv();        //most fit individual in currentPop
         
 
         int genCount = 0;       //counts all generations done
@@ -241,9 +241,16 @@ public class GA {
         while (genCount <= maxGens) {
             Population offspring = doGeneration(currentPop); 
             fittestInPop = offspring.getFittestIndv();
-                    
-             
-            if (fittestInPop.getFitness() > mostFit.getFitness()) {
+            
+            System.out.print(mostFit.getIndv());
+
+            int popFittestFitness = fittestInPop.getFitness();     
+            int mostFitFitness = mostFit.getFitness();
+
+            System.out.print(popFittestFitness);
+            System.out.print(mostFitFitness);
+
+            if (popFittestFitness > mostFitFitness) {
                 mostFit = fittestInPop; 
                 genMostFit = genCount;
             }

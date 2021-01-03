@@ -32,7 +32,7 @@ public class Individual implements Comparable<Individual> {
 
     //returns fitness if we need it outside of this class
     public int getFitness() {
-        fitness = calculateFitness();
+        //fitness = calculateFitness();
         return fitness; 
     }
 
