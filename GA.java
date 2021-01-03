@@ -23,7 +23,7 @@ public class GA {
         maxGens = maxGenerations;
         printInt = printInterval;     
     }
-
+ 
     
 
     
