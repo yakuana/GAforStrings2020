@@ -21,7 +21,8 @@ public class GA {
         crossoverProb = crossoverProbability;
         mutationProb = mutationProbability;
         maxGens = maxGenerations;
-        printInt = printInterval;     
+        printerval = printInterval;
+
     }
 
     
@@ -45,45 +46,54 @@ public class GA {
         return; //will eventually return parent selected
     }
     
-    public void boltzmannSelection() {
+
+    public Individual boltzmannSelection(Population currentPop) {
         
-        //insert bs code (I have this somewhere already from whe we first started project)
+        Individual parent;
+        float probabilitySelected;
+        float eVar = 2.71828;
+        float[] eFitValues = new float[popSize];
+        float eFitSum = 0;
 
-        //choose i with probability: P(i) = e^(Fitness(i)) / sum(1 to j)(fitness(1 to j))
+        for (i = popSize-1; i >= 0; i--) {            //i represents index of indiviudal in currentPop. starting from end of idnvlist array! (least fit to most fit)
+            Individual currentIndv = currentPop.individualList[i];
+            int indvFitness = currentIndv.getFitness();
 
-        //sum of fitness of all individuals in population
-        //FitSum = 0;
+            float eToFitness = Math.pow(eVar, indvFitness);
+            eFitValues[i] = eToFitness;
+            eFitSum += eToFitness;
+        }
 
-        //list: each individual represented by e^(that indiviual's fitness)
-        //EFitList = [];
+        //indvProbability = (eFitValues[i] / eFitSum);
 
+        //make random float under 1 to determine probability
+        Random randBS = new Random();
+        probabilitySelected = randBS.nextFloat();
 
-        //for N in population:
-        //fitness of current individual
-        //IndividualEFit = e^fitness(individual)
-
-        //EFitList.append(IndividualEFit)
-        //FitSum +=IndividualEFit
-
-        //for N in EFitList:
-        //IndividualProbability = EFitList(n) / FitSum;
- 
-        return;                 // will eventually return parent selected
+        //starting from least fit to most fit
+        for (i = popSize-1; i >= 0; i--) {
+            float indvProbability = (eFitValues[i] / eFitSum);
+            if (probabilitySelected <= indvProbability) {
+                parent = currentPop.individualList[i];
+                return parent;
+            }
+        }
     }
     
     //selection method, determines type of selection and calls appropriate selection method, then returns 2 parents
-    public void selection() {
+    public Individual selection(Population currentPop) {
         Individual parent;
         if (selType.equals("ts")); {
-            //parent = tournamentSelection();
+            //parent = tournamentSelection(currentPop);
         }  
         if (selType.equals("bs")); {
-            //parent = boltzmannSelection();
+            parent = boltzmannSelection(currentPop);
         }
         if (selType.equals("rs")); {
-            //parent = rankSelection();
+            //parent = rankSelection(currentPop);
         }
-        //return parent
+        return parent;
+
     }
     
     //gives you char in alphabet (for mutation of children strings)
@@ -183,7 +193,9 @@ public class GA {
             Population offspring = this.doGeneration(currentPop); 
 
             // if at interval, print the fittest individual 
-            if (i % this.printInt == 0) {
+
+            if (i % this.printerval == 0) {
+
                 this.mostFit = offspring.getFittestIndv();
                 System.out.println(this.mostFit.getIndv());
             } 
@@ -206,10 +218,11 @@ public class GA {
 
         GA algorithm = new GA(popSize, selType, crossoverProb, mutationProb, maxGens, printInt); 
         
-        
+
+        //initaliazing first population and calling the genetic algorithm function that will do the actual algorithm
         Population initialPop = new Population(popSize);
-        
-        
+
+
         algorithm.generations(initialPop); 
 
         //  counter += 1 
