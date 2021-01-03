@@ -7,16 +7,19 @@ public class Population {
 
     // list of current population
     Individual[] individualList;  
+    int popSize;
 
     // constructor method for offspring populations  
     public Population(Individual[] population) {
         individualList = population;
+        popSize = population.length;
         sortPop();
     }
 
     // constructor method for initial population 
     public Population(int size, String target) {
         generateInitialPop(size, target);
+        popSize = size;
         sortPop();
     }
     
@@ -66,9 +69,24 @@ public class Population {
         return this.individualList; 
     }
 
+    public Integer rankSumPop() {
+        // returns the sum of all of the Individual 
+        // fitnesses within the individualList 
+
+        int i; 
+        int sum = 0; 
+
+        for (i = 0; i < this.individualList.length; i++) {
+            sum += this.individualList[i].fitness; 
+        }   
+
+        return sum; 
+    }
+
     // return individual with greatest fitness
     public Individual getFittestIndv() {
         this.sortPop();
-        return individualList[0];
+        int mostFitIndex = popSize - 1;
+        return individualList[mostFitIndex];
     }
 }

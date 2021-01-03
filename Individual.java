@@ -3,11 +3,13 @@ public class Individual {
     String target;         // target string  
     String indvString;     // individual's string  
     Integer fitness;       // number of characters that match target string in individual string  
+    float probability;  
 
     public Individual(String targetIn, String indv) {
             target = targetIn;
             indvString = indv; //make indv optional somehow for starting pop
             fitness = calculateFitness();
+            probability = 0; 
     }
     
 
