@@ -2,6 +2,7 @@
 
 import java.util.Random; 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Population {
 
@@ -41,12 +42,12 @@ public class Population {
         Random randomGenerator = new Random();  
 
         // create the number of individuals in the population (size)
-        for (i = 0; i < size; i++) {
+        for (i = 0; i < size - 1; i++) {
             String newIndividual = "";
             
             // create one string of random characters of the taget length's size
-            for (j = 0; j < lenTarget; j++) {
-                int index = randomGenerator.nextInt(size); 
+            for (j = 0; j < lenTarget - 1; j++) {
+                int index = randomGenerator.nextInt(ALL_ASCII.length()); 
                 nextChar = ALL_ASCII.charAt(index); 
                 newIndividual += nextChar; 
             }
@@ -62,12 +63,12 @@ public class Population {
         this.individualList = initialPopulation;
     }
 
-    public Individual[] sortPop() {
-        // sort individuals in population based on fitness
-        Arrays.sort(this.individualList, (ind1, ind2) -> Integer.valueOf(ind1.fitness).compareTo(Integer.valueOf(ind2.fitness)));
 
-        return this.individualList; 
+    public void sortPop() {
+        // sort individuals in population based on fitness
+        Arrays.sort(individualList, Comparator.comparing(Individual :: getFitness));
     }
+
 
     public Integer rankSumPop() {
         // returns the sum of all of the Individual 
@@ -89,4 +90,6 @@ public class Population {
         int mostFitIndex = popSize - 1;
         return individualList[mostFitIndex];
     }
+
+    
 }
