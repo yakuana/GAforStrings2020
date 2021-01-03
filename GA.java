@@ -5,10 +5,10 @@ public class GA {
     // target string
     final String TARGET = "I think this is a reasonable medium sized string!!";
 
-    Individual mostFit;        //most fit individual OVERALL in genetic algorithm
-    int popSize; 
+    Individual mostFit;     //most fit individual OVERALL in genetic algorithm
+    int popSize;            //population size 
     int maxGens;            //max num of generations before algo stops
-    int printerval;           //interval of how many generation created between prints
+    int printerval;         //interval of how many generation created between prints
     float crossoverProb;    //probability that we will crossover
     float mutationProb;     //probability that we will perform mutation
     String selType;         //type of selection we will do
@@ -25,9 +25,7 @@ public class GA {
     }
 
     
-
-    
-    //work in progess, will eventually return an individual selected from pop via rs
+    //return an individual selected from population using rank selection  
     public Individual rankSelection(Population currentPop) {
         int i; 
         int rankSum = 0; 
@@ -35,14 +33,11 @@ public class GA {
         float randProb; 
         Random random = new Random(); 
 
-        // sort the population from 
-        // least to greatest rank 
-        currentPop.sortPop(); 
-
         // get the sum of the population 
         rankSum = currentPop.rankSumPop(); 
         
-        greatestProb = currentPop.getFittestIndv().probability / rankSum;
+        // largest possible float 
+        greatestProb = currentPop.getFittestIndv().fitness / rankSum;
         
         // get random probability 
         randProb = random.nextFloat() * greatestProb; 
@@ -51,11 +46,11 @@ public class GA {
         for (i = 0; i < currentPop.individualList.length; i++) {
             
             // get the probability of the Individual 
-            currentPop.individualList[i].probability =  currentPop.individualList[i].fitness / rankSum; 
+            float probability = currentPop.individualList[i].fitness / rankSum; 
 
             // return the individual if it has a probability
             // greater than or equal to the randomly generated probability 
-            if (currentPop.individualList[i].probability >= randProb) {
+            if (probability >= randProb) {
                 return currentPop.individualList[i];
             }
         }
@@ -65,8 +60,8 @@ public class GA {
         return currentPop.getFittestIndv();
     }
     
-
-    public  Individual tournamentSelection(Population currentPop) {
+    // return an individual from the population using tournament selection  
+    public Individual tournamentSelection(Population currentPop) {
         //get two random individuals from currentPop, chose one with highest fitness to be winningParent
         Individual winningParent;
         Random randTS = new Random();
@@ -89,7 +84,7 @@ public class GA {
         return winningParent; //will eventually return parent selected
     }
 
-
+    // return an individual from the population using Boltzmann selection 
     public Individual boltzmannSelection(Population currentPop) {
         //generates random double to select from individuals with different probability to be chosen
         //an individual's probability to be chosen = e^that individuals fitness/sum of all individuals' e^fitness
@@ -231,32 +226,44 @@ public class GA {
         //run ga through generations until it hits maxGen OR the individual of best fit for that generation is equal to the target 
         //print out data every time generation count hits printerval
         Population currentPop = population;  
+        int genCount = 0;
+        Individual fittestInPop;
 
         // create maxGens (max generation) amount of populations
-        //might want to change to while loop
-        for (int i = 0; i < maxGens; i++) {
+        while (genCount <= maxGens) {
             Population offspring = doGeneration(currentPop); 
+            fittestInPop = offspring.getFittestIndv();
+            int genMostFit = 0;            
 
-            //if (offspring.getFittestIndv().getIndv()).equals(TARGET) {
-                //end for loop
-                //System.out.println("Hit the Target!!");
+            if (fittestInPop.getIndv().equals(TARGET)) {
+                System.out.println("Hit the Target!!");
+                System.out.println(String.format("Target:               %s", TARGET));
+                System.out.println(String.format("Best Individual:       %s", mostFit.indvString));
+                System.out.println(String.format("Generation Found:      %x", genMostFit));
+                System.out.println(String.format("Score: %x/ %x = %x%", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+                break;
+            } else if (fittestInPop.fitness > mostFit.fitness) {
+                mostFit = fittestInPop; 
+                genMostFit = genCount;
+            }
+            
+            // if at interval, print the fittest individual in that currentPop
+            if (genCount % printerval == 0) {
+                //mostFit = offspring.getFittestIndv();
+                System.out.println(String.format("%x ( %x/ %x):  %s", genCount, fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+            }
 
-
-            // if at interval, print the fittest individual 
-
-            if (i % this.printerval == 0) {
-
-                mostFit = offspring.getFittestIndv();
-                System.out.println(mostFit.getIndv());
-                //String printThis = String.format("%x ( %x/ %x):  %s", i, mostFit
-            } 
-
+            //if we reach max generation, print missed target and other info
+            if (genCount == maxGens) {
+                System.out.println("Missed the target...");
+                System.out.println(String.format("Target:               %s", TARGET));
+                System.out.println(String.format("Best Individual:       %s", mostFit.indvString));
+                System.out.println(String.format("Generation Found:      %x", genMostFit));
+                System.out.println(String.format("Score: %x/ %x = %x%", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+            }
             currentPop = offspring; 
         }
     }
-
-
-
 
     public static void main(String[] args) {
 
@@ -273,52 +280,6 @@ public class GA {
         //initaliazing first population and calling the genetic algorithm function that will do the actual algorithm
         Population initialPop = new Population(popSize, algorithm.TARGET);
 
-
         algorithm.generations(initialPop); 
-
-        //  counter += 1 
-        // for maxgenerations 1000 {
-                // state, rPop = [] 
-                // get parents from starterPop 
-                //  do the 50  times thins 
-                    // set offspring as starterPop 
-
-        // }
-
-        
-
-
-
-
-    //initialize a population
-    //Population initialPop = new Population();
-    //initialPop.generateInitialPop();
-    //Individual mostFit = initialPop.getFittestIndv();
-
-    //population of offspring might move this
-    //Population offspringPop = new Population();
-    //int generationCount = 0;
-
-    //THIS CHUNK MAKES OFFSPRING POP through selection, recombo and mutation (maybe it goes in main? is this main?)
-    //DO THIS 50 TIMES: (or until offspring pop is 100)
-    
-    //p1 = selection(); 
-    //p2 = selection();
-
-    //do recombination(p1, p2) , return child1, child2 
-    //Individual[] children = new Individual[2];
-    //Individual[] children = recombination(p1, p2);
-    //Individual child1 = children[0];
-    //Individual child2 = children[1];
-
-    //Individual child1 = mutation(child1); 
-    //Individual child2 = mutation(child2);
-        
-    //put children into offspring population
-
-
-//genCount or whatever its called += 1
-//call GA again with offspring population, repeat until GA is finished
-        
     }
 }
