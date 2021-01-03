@@ -22,6 +22,7 @@ public class GA {
         mutationProb = mutationProbability;
         maxGens = maxGenerations;
         printerval = printInterval;
+
     }
 
     
@@ -45,6 +46,7 @@ public class GA {
         return; //will eventually return parent selected
     }
     
+
     public Individual boltzmannSelection(Population currentPop) {
         
         Individual parent;
@@ -91,6 +93,7 @@ public class GA {
             //parent = rankSelection(currentPop);
         }
         return parent;
+
     }
     
     //gives you char in alphabet (for mutation of children strings)
@@ -190,7 +193,9 @@ public class GA {
             Population offspring = this.doGeneration(currentPop); 
 
             // if at interval, print the fittest individual 
+
             if (i % this.printerval == 0) {
+
                 this.mostFit = offspring.getFittestIndv();
                 System.out.println(this.mostFit.getIndv());
             } 
@@ -213,8 +218,11 @@ public class GA {
 
         GA algorithm = new GA(popSize, selType, crossoverProb, mutationProb, maxGens, printInt); 
         
+
         //initaliazing first population and calling the genetic algorithm function that will do the actual algorithm
         Population initialPop = new Population(popSize);
+
+
         algorithm.generations(initialPop); 
 
         //  counter += 1 
