@@ -25,7 +25,7 @@ public class Population {
     }
     
     // generates 100 random individuals for starting population
-    public void generateInitialPop(int size, String target) {
+    public void generateInitialPop(int popSize, String target) {
         // for each individual in poplation of size (size)
         // make a new indiivudal with random characters from ASCII table 
         final String LOWER_CASE = "abcdefghijklmnopqrstuvwxyz";
@@ -34,20 +34,19 @@ public class Population {
         final String SYMBOLS = "!@#$%^&*()_+=-[]{}|;’:\",./<>?";
         final String SPACE = " ";
         final String ALL_ASCII = LOWER_CASE + UPPER_CASE + DIGITS + SYMBOLS + SPACE; 
-        
-        int i, j; 
+         
         int lenTarget = target.length();
         Character nextChar; 
-        Individual initialPopulation[] = new Individual[size]; 
+        Individual[] initialPopulation = new Individual[popSize]; 
         Random randomGenerator = new Random();  
 
         // create the number of individuals in the population (size)
-        for (i = 0; i < size - 1; i++) {
+        for (int i = 0; i < popSize - 1; i++) {
             String newIndividual = "";
             
-            // create one string of random characters of the taget length's size
-            for (j = 0; j < lenTarget - 1; j++) {
-                int index = randomGenerator.nextInt(ALL_ASCII.length()); 
+            // create one string of random characters of the target length's size
+            for (int j = 0; j < lenTarget - 1; j++) {
+                int index = randomGenerator.nextInt(ALL_ASCII.length() - 1); 
                 nextChar = ALL_ASCII.charAt(index); 
                 newIndividual += nextChar; 
             }
