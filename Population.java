@@ -1,22 +1,25 @@
 /* The Population class stores all of the Individual Objects within an array. */
 
 import java.util.Random; 
-import java.util.Arrays;
+
 
 public class Population {
 
     // list of current population
     Individual[] individualList;  
+    int popSize;
 
     // constructor method for offspring populations  
     public Population(Individual[] population) {
         individualList = population;
+        popSize = population.length;
         sortPop();
     }
 
     // constructor method for initial population 
     public Population(int size, String target) {
         generateInitialPop(size, target);
+        popSize = size;
         sortPop();
     }
     
@@ -38,12 +41,12 @@ public class Population {
         Random randomGenerator = new Random();  
 
         // create the number of individuals in the population (size)
-        for (i = 0; i < size; i++) {
+        for (i = 0; i < size - 1; i++) {
             String newIndividual = "";
             
             // create one string of random characters of the taget length's size
-            for (j = 0; j < lenTarget; j++) {
-                int index = randomGenerator.nextInt(size); 
+            for (j = 0; j < lenTarget - 1; j++) {
+                int index = randomGenerator.nextInt(ALL_ASCII.length()); 
                 nextChar = ALL_ASCII.charAt(index); 
                 newIndividual += nextChar; 
             }
@@ -59,16 +62,53 @@ public class Population {
         this.individualList = initialPopulation;
     }
 
-    public Individual[] sortPop() {
-        // sort individuals in population based on fitness
-        Arrays.sort(this.individualList, (ind1, ind2) -> Integer.valueOf(ind1.fitness).compareTo(Integer.valueOf(ind2.fitness)));
 
-        return this.individualList; 
+    public void sortPop() {
+        // sort individuals in population based on fitness
+        //Arrays.sort(individualList, Comparator.comparing(Individual :: getFitness));   
+        selectionSort(); 
+    }
+
+    public void swap(int i, int j) {
+        Individual temp = individualList[i];
+        individualList[i] = individualList[j];
+        individualList[j] = temp;
+    }
+
+    public void selectionSort() {
+        for (int unsorted = individualList.length; unsorted > 0; unsorted--) {
+            
+            int largest = 0; // index of largest value this pass
+            for (int i = 1; i < unsorted; i++) {
+                if (individualList[largest].getFitness() < individualList[i].getFitness()) {
+                    largest = i; // found a new index of largest value
+                }
+            }
+            swap(largest, unsorted - 1); // put the largest value into position 
+        }
+    }
+
+
+    public Integer rankSumPop() {
+        // returns the sum of all of the Individual 
+        // fitnesses within the individualList 
+
+        int i; 
+        int sum = 0; 
+
+        for (i = 0; i < this.individualList.length; i++) {
+            sum += this.individualList[i].fitness; 
+        }   
+
+        return sum; 
     }
 
     // return individual with greatest fitness
     public Individual getFittestIndv() {
         this.sortPop();
-        return individualList[0];
+        int mostFitIndex = popSize - 1;
+        return individualList[mostFitIndex];
     }
+
+    
 }
