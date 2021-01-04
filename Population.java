@@ -53,6 +53,8 @@ public class Population {
 
             // create the new individual 
             Individual individual = new Individual(target, newIndividual);
+            //System.out.println(newIndividual);
+            //System.out.println(individual.getIndv());
 
             // add the new individual to the population 
             initialPopulation[i] = individual; 
@@ -60,6 +62,8 @@ public class Population {
 
         // store the individuals in the Population object 
         this.individualList = initialPopulation;
+        //System.out.println(individualList);
+        //System.out.println(individualList.length);
     }
 
 
@@ -71,25 +75,6 @@ public class Population {
         Arrays.sort(individualList, Individual.IndvFitnessComparator);
 
     }
-
-    // public void swap(int i, int j) {
-    //     Individual temp = individualList[i];
-    //     individualList[i] = individualList[j];
-    //     individualList[j] = temp;
-    // }
-
-    // public void selectionSort() {
-    //     for (int unsorted = individualList.length; unsorted > 0; unsorted--) {
-            
-    //         int largest = 0; // index of largest value this pass
-    //         for (int i = 1; i < unsorted; i++) {
-    //             if (individualList[largest].fitness < individualList[i].fitness {
-    //                 largest = i; // found a new index of largest value
-    //             }
-    //         }
-    //         swap(largest, unsorted - 1); // put the largest value into position 
-    //     }
-    // }
 
 
     public Integer rankSumPop() {
@@ -110,8 +95,8 @@ public class Population {
     public Individual getFittestIndv() {
         Individual fittest;
         sortPop();
-        //int mostFitIndex = popSize - 1;
-        fittest = individualList[0];            //this is the problem!!! right now I changed the index to 0!
+        int mostFitIndex = popSize - 2;
+        fittest = individualList[mostFitIndex];            //this is the problem!!! right now I changed the index to 0!
         return fittest;
     }
 
