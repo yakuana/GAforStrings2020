@@ -1,6 +1,8 @@
 import java.util.Comparator;
 
+
 public class Individual implements Comparable<Individual> {
+
 
     String target;         // target string  
     String indvString;     // individual's string  
@@ -17,6 +19,7 @@ public class Individual implements Comparable<Individual> {
         fitness = 0;
         int charsSharedCount = 0;
 
+
         //count number of characters individual shares with target string, make this the fit
         for (int i = 0; i < indvString.length() - 1; i++) {
             char thisChar = indvString.charAt(i);   //character in this individuals string at i
@@ -32,6 +35,7 @@ public class Individual implements Comparable<Individual> {
 
     //returns fitness if we need it outside of this class
     public int getFitness() {
+
         fitness = calculateFitness();
         return fitness; 
     }
@@ -51,6 +55,7 @@ public class Individual implements Comparable<Individual> {
         else {
             return 0;
         }
+
     }
     public static Comparator<Individual> IndvFitnessComparator = new Comparator<Individual>() {
 

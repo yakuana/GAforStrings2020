@@ -5,7 +5,9 @@ public class GA {
     // target string
     final String TARGET = "I think this is a reasonable medium sized string!!";
 
+
     //Individual mostFit;     //most fit individual OVERALL in genetic algorithm
+
     int popSize;            //population size 
     int maxGens;            //max num of generations before algo stops
     int printerval;         //interval of how many generation created between prints
@@ -225,6 +227,10 @@ public class GA {
         //run ga through generations until it hits maxGen OR the individual of best fit for that generation is equal to the target 
         //print out data every time generation count hits printerval
         Population currentPop = population;  
+        int genCount = 0;
+        Individual fittestInPop;
+        mostFit = population.individualList[0];
+
 
         Individual mostFit = currentPop.getFittestIndv();             //most fit individual OVERALL in genetic algorithm
         Individual fittestInPop = currentPop.getFittestIndv();        //most fit individual in currentPop
@@ -247,6 +253,7 @@ public class GA {
                 mostFit = fittestInPop; 
                 genMostFit = genCount;
             }
+
 
             if (fittestInPop.getIndv().equals(TARGET)) {
                 System.out.println("Hit the Target!!");
@@ -275,6 +282,7 @@ public class GA {
                 System.out.println(String.format("Best Individual:       %s", mostFit.indvString));
                 System.out.println(String.format("Generation Found:      %x", genMostFit));
                 System.out.println(String.format("Score: %x/ %x = %x", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+
             }
             currentPop = offspring; 
         }
@@ -294,6 +302,7 @@ public class GA {
         
         //initaliazing first population and calling the genetic algorithm function that will do the actual algorithm
         Population initialPop = new Population(100, algorithm.TARGET);
+
 
         algorithm.generations(initialPop); 
     }
