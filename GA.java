@@ -5,7 +5,9 @@ public class GA {
     // target string
     final String TARGET = "I think this is a reasonable medium sized string!!";
 
-    Individual mostFit;     //most fit individual OVERALL in genetic algorithm
+
+    //Individual mostFit;     //most fit individual OVERALL in genetic algorithm
+
     int popSize;            //population size 
     int maxGens;            //max num of generations before algo stops
     int printerval;         //interval of how many generation created between prints
@@ -128,7 +130,9 @@ public class GA {
         String SPACE = " ";
         String ALL_ASCII = LOWER_CASE + UPPER_CASE + DIGITS + SYMBOLS + SPACE; 
 
-        return ALL_ASCII.charAt(index);
+        char[] alphabet = new char[ALL_ASCII.length()];
+
+        return alphabet[index];
     }
 
     //mutation method
@@ -142,7 +146,7 @@ public class GA {
             float randProb = rand.nextFloat();              //makes random float between 0 and 1
             if (randProb <= mutationProb) {                 //if true, do mutation
                 //change that char
-                int randInt = rand.nextInt(92);  //92 = ALPAHBET LENGTH
+                int randInt = rand.nextInt(91);  //92 = ALPAHBET LENGTH
                 char newChar = getChar(randInt);
                 if (newChar == oldChar) {                   //makes sure you are actually changing char
                     randInt += 1;
@@ -227,29 +231,48 @@ public class GA {
         Individual fittestInPop;
         mostFit = population.individualList[0];
 
+
+        Individual mostFit = currentPop.getFittestIndv();             //most fit individual OVERALL in genetic algorithm
+        Individual fittestInPop = currentPop.getFittestIndv();        //most fit individual in currentPop
+        
+
+        int genCount = 0;       //counts all generations done
+        int genMostFit = 0;     //counts generation that has the mostFit individual so far
+
+        
+
         // create maxGens (max generation) amount of populations
         while (genCount <= maxGens) {
             Population offspring = doGeneration(currentPop); 
+            genCount += 1;
             fittestInPop = offspring.getFittestIndv();
-            int genMostFit = 0;         
-               
+            
+            
+
+            if (fittestInPop.getFitness() > mostFit.getFitness()) {
+                mostFit = fittestInPop; 
+                genMostFit = genCount;
+            }
+
 
             if (fittestInPop.getIndv().equals(TARGET)) {
                 System.out.println("Hit the Target!!");
                 System.out.println(String.format("Target:               %s", TARGET));
                 System.out.println(String.format("Best Individual:       %s", mostFit.indvString));
-                System.out.println(String.format("Generation Found:      %x", genMostFit));
-                System.out.println(String.format("Score: %x/ %x = %x%", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+                System.out.println(String.format("Generation Found:      %d", genMostFit));
+                System.out.println(String.format("Score: %d/ %d = %f%", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
                 break;
-            } else if (fittestInPop.getFitness() > mostFit.getFitness()) {
-                mostFit = fittestInPop; 
-                genMostFit = genCount;
             }
             
             // if at interval, print the fittest individual in that currentPop
-            if (genCount % printerval == 0) {
-                //mostFit = offspring.getFittestIndv();
-                System.out.println(String.format("%x ( %x/ %x):  %s", genCount, fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+            if ((genCount % printerval) == 0) {
+                mostFit = offspring.getFittestIndv();
+                //System.out.println("fittest in currentPop:");
+                //System.out.println(popFittestFitness);
+                //System.out.println("fittest in total:");
+                //System.out.println(mostFitFitness);
+
+                System.out.println(String.format("%d ( %d/ %d):  %s", genCount, mostFit.fitness, TARGET.length(), mostFit.getIndv()));
             }
 
             //if we reach max generation, print missed target and other info
@@ -258,26 +281,28 @@ public class GA {
                 System.out.println(String.format("Target:               %s", TARGET));
                 System.out.println(String.format("Best Individual:       %s", mostFit.indvString));
                 System.out.println(String.format("Generation Found:      %x", genMostFit));
-                System.out.println(String.format("Score: %x/ %x = %x%", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+                System.out.println(String.format("Score: %x/ %x = %x", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+
             }
             currentPop = offspring; 
         }
     }
 
     public static void main(String[] args) {
-        int popSize = Integer.parseInt(args[0]);
+        //int popSize = Integer.parseInt(args[0]);
 
-        String selType = args[1];                           // type of selection
-        float crossoverProb = Float.parseFloat(args[2]);    // probability of crossover
-        float mutationProb = Float.parseFloat(args[3]);     // probability of mutation
-        int maxGens = Integer.parseInt(args[4]);            // max num of generations 
-        int printInt = Integer.parseInt(args[5]);           // interval of generation  
+        //String selType = args[1];                           // type of selection
+        //float crossoverProb = Float.parseFloat(args[2]);    // probability of crossover
+        //float mutationProb = Float.parseFloat(args[3]);     // probability of mutation
+        //int maxGens = Integer.parseInt(args[4]);            // max num of generations 
+        //int printInt = Integer.parseInt(args[5]);           // interval of generation  
 
-        GA algorithm = new GA(popSize, selType, crossoverProb, mutationProb, maxGens, printInt); 
-    
+        //GA algorithm = new GA(popSize, selType, crossoverProb, mutationProb, maxGens, printInt); 
+        GA algorithm = new GA(100, "ts", (float) 0.7, (float) 0.01, 100, 10);
         
         //initaliazing first population and calling the genetic algorithm function that will do the actual algorithm
-        Population initialPop = new Population(popSize, algorithm.TARGET);
+        Population initialPop = new Population(100, algorithm.TARGET);
+
 
         algorithm.generations(initialPop); 
     }
