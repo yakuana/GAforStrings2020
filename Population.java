@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.Arrays;
 
 
-
 public class Population {
 
     // list of current population
@@ -54,8 +53,6 @@ public class Population {
 
             // create the new individual 
             Individual individual = new Individual(target, newIndividual);
-            //System.out.println(newIndividual);
-            //System.out.println(individual.getIndv());
 
             // add the new individual to the population 
             initialPopulation[i] = individual; 
@@ -85,7 +82,7 @@ public class Population {
         int i; 
         int sum = 0; 
 
-        for (i = 0; i < this.individualList.length; i++) {
+        for (i = 0; i < this.individualList.length - 1; i++) {
             sum += this.individualList[i].fitness; 
         }   
 
@@ -96,7 +93,7 @@ public class Population {
     public Individual getFittestIndv() {
         Individual fittest;
         sortPop();
-        int mostFitIndex = popSize - 2;
+        int mostFitIndex = popSize - 2; 
         fittest = individualList[mostFitIndex];            //this is the problem!!! right now I changed the index to 0!
         return fittest;
     }
