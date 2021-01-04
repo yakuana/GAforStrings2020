@@ -5,9 +5,7 @@ public class GA {
     // target string
     final String TARGET = "I think this is a reasonable medium sized string!!";
 
-
     //Individual mostFit;     //most fit individual OVERALL in genetic algorithm
-
     int popSize;            //population size 
     int maxGens;            //max num of generations before algo stops
     int printerval;         //interval of how many generation created between prints
@@ -83,7 +81,7 @@ public class GA {
             winningParent = currentPop.individualList[parent2Index];
         }
 
-        return winningParent; //will eventually return parent selected
+        return winningParent; 
     }
 
     // return an individual from the population using Boltzmann selection 
@@ -130,15 +128,16 @@ public class GA {
         String SPACE = " ";
         String ALL_ASCII = LOWER_CASE + UPPER_CASE + DIGITS + SYMBOLS + SPACE; 
 
-        char[] alphabet = new char[ALL_ASCII.length()];
+        //char[] alphabet = new char[ALL_ASCII.length()];
+        char myChar = ALL_ASCII.charAt(index);
 
-        return alphabet[index];
+        return myChar;
     }
 
     //mutation method
     public Individual mutation(Individual indv) {
         String indvString = indv.getIndv();
-        final String TARGET = "I think this is a reasonable medium sized string!!";
+        //final String TARGET = "I think this is a reasonable medium sized string!!";
 
         for (int i = 0; i <= indvString.length() - 1; i+=1) {       //for every character in indvString
             char oldChar = indvString.charAt(i);
@@ -146,13 +145,20 @@ public class GA {
             float randProb = rand.nextFloat();              //makes random float between 0 and 1
             if (randProb <= mutationProb) {                 //if true, do mutation
                 //change that char
+                //System.out.println("before m:");
+                //System.out.println(indvString);
                 int randInt = rand.nextInt(91);  //92 = ALPAHBET LENGTH
                 char newChar = getChar(randInt);
                 if (newChar == oldChar) {                   //makes sure you are actually changing char
                     randInt += 1;
                     newChar = getChar(randInt);
                 }
-                indvString = indvString.substring(0, i) + newChar + indvString.substring(i+1);         //new mutated string
+                String newCharString = String.valueOf(newChar);
+                indvString = indvString.substring(0, i) + newCharString + indvString.substring(i+1, indvString.length());
+                //System.out.println(newCharString);
+                //System.out.println(i);
+                //System.out.println("after m:");         //new mutated string
+                //System.out.println(indvString);
             }
         }
         Individual mutatedIndv = new Individual(TARGET, indvString);
@@ -170,7 +176,7 @@ public class GA {
         if (randProb <= crossoverProb) {     //means we are doing rombination
             int randInt = rand.nextInt(p1.getIndv().length());   //will be used to determine where to do crossover
             //make sure to make copy and not change the parent itself!!
-            
+             
             String p1Str = p1.getIndv();
             String p2Str = p2.getIndv();
             String child1Str = p1Str.substring(0, randInt) + p2Str.substring(randInt);
@@ -179,9 +185,20 @@ public class GA {
             Individual child1 = new Individual(TARGET, child1Str);
             Individual child2 = new Individual(TARGET, child2Str);
 
+            // System.out.println("Parent 1:");
+            // System.out.println(p1Str);
+            // System.out.println("Parent 2:");
+            // System.out.println(p2Str);
+
+            // System.out.println("Child1:");
+            // System.out.println(child1.getIndv());
+            //System.out.println("Child2:");
+            //System.out.println(child2.getIndv()); 
+            
+            
             children[0] = child1;
             children[1] = child2;
-        } else {                        //we arent doing recombo, so children = parents
+        } else {                        //we aren't doing recombo, so children = parents
             children[0] = p1;  
             children[1] = p2;
         }
@@ -190,6 +207,7 @@ public class GA {
 
     public Population doGeneration(Population currentPop) {
         Individual[] offspringList = new Individual[popSize]; 
+
         for(int i = 0; i < popSize; i+=2) {
             Individual p1;
             Individual p2;
@@ -197,27 +215,57 @@ public class GA {
             if (selType.equals("ts")) {
                 p1 = tournamentSelection(currentPop);
                 p2 = tournamentSelection(currentPop);
+                //System.out.println("tournamentselection");
             } else if (selType.equals("bs")) {
                 p1 = boltzmannSelection(currentPop);
                 p2 = boltzmannSelection(currentPop);
+                System.out.println("boltzmannselection");
             } else if (selType.equals("rs")) {
-                p1 = boltzmannSelection(currentPop);
-                p2 = boltzmannSelection(currentPop);
+                p1 = rankSelection(currentPop);
+                p2 = rankSelection(currentPop);
+                System.out.println("rankselection");
             } else {
                 System.out.print("There was an error! with selection!!");
                 break;
             }
 
+            while(p1.getIndv().equals(p2.getIndv())) {
+                if (selType.equals("ts")) {
+                    p2 = tournamentSelection(currentPop);
+                } else if (selType.equals("bs")) {
+                    p2 = boltzmannSelection(currentPop);
+                } else if (selType.equals("rs")) {
+                    p2 = rankSelection(currentPop);
+                }
+            }
+
+
+            //System.out.println(p1.getIndv());
+            //System.out.println(p2.getIndv());
+
 
             Individual[] children = recombination(p1, p2);
-            Individual newChild1 = children[0];
-            Individual newChild2 = children[1];
+            Individual child1 = children[0];
+            Individual child2 = children[1];
 
-            Individual child1 = mutation(newChild1); 
-            Individual child2 = mutation(newChild2);
-        
-            offspringList[i] = child1;
-            offspringList[i+1] = child2;   
+            // System.out.println("Child1:");
+            // System.out.println(child1.getIndv());
+            // System.out.println("Child2:");
+            // System.out.println(child2.getIndv());
+
+            // KEEP
+            Individual newChild1 = mutation(child1); 
+            Individual newChild2 = mutation(child2);
+            offspringList[i] = newChild1;
+            offspringList[i+1] = newChild2;
+
+            // System.out.println("Child1 after m:");
+            // System.out.println(newChild1.getIndv());
+            // System.out.println("Child2 after m:");
+            // System.out.println(newChild2.getIndv());
+            
+            //offspringList[i] = newChild1;
+            //offspringList[i+1] = newChild2;
         }
         Population offspring = new Population(offspringList);
         return offspring;
@@ -227,10 +275,6 @@ public class GA {
         //run ga through generations until it hits maxGen OR the individual of best fit for that generation is equal to the target 
         //print out data every time generation count hits printerval
         Population currentPop = population;  
-        int genCount = 0;
-        Individual fittestInPop;
-        mostFit = population.individualList[0];
-
 
         Individual mostFit = currentPop.getFittestIndv();             //most fit individual OVERALL in genetic algorithm
         Individual fittestInPop = currentPop.getFittestIndv();        //most fit individual in currentPop
@@ -239,14 +283,17 @@ public class GA {
         int genCount = 0;       //counts all generations done
         int genMostFit = 0;     //counts generation that has the mostFit individual so far
 
-        
+        System.out.println(fittestInPop.getIndv());
 
         // create maxGens (max generation) amount of populations
-        while (genCount <= maxGens) {
+        while (genCount <= maxGens - 1) {
             Population offspring = doGeneration(currentPop); 
             genCount += 1;
+
             fittestInPop = offspring.getFittestIndv();
             
+            //System.out.println(fittestInPop.getIndv());
+            //System.out.println(mostFit.getIndv());
             
 
             if (fittestInPop.getFitness() > mostFit.getFitness()) {
@@ -254,13 +301,12 @@ public class GA {
                 genMostFit = genCount;
             }
 
-
             if (fittestInPop.getIndv().equals(TARGET)) {
                 System.out.println("Hit the Target!!");
                 System.out.println(String.format("Target:               %s", TARGET));
                 System.out.println(String.format("Best Individual:       %s", mostFit.indvString));
                 System.out.println(String.format("Generation Found:      %d", genMostFit));
-                System.out.println(String.format("Score: %d/ %d = %f%", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
+                System.out.println(String.format("Score: %d/ %d = %f%s", fittestInPop.fitness, TARGET.length(), ((float) mostFit.fitness/TARGET.length() * 100), "%"));
                 break;
             }
             
@@ -268,7 +314,7 @@ public class GA {
             if ((genCount % printerval) == 0) {
                 mostFit = offspring.getFittestIndv();
                 //System.out.println("fittest in currentPop:");
-                //System.out.println(popFittestFitness);
+                //System.out.println(fittestInPop.getFitness());
                 //System.out.println("fittest in total:");
                 //System.out.println(mostFitFitness);
 
@@ -280,9 +326,8 @@ public class GA {
                 System.out.println("Missed the target...");
                 System.out.println(String.format("Target:               %s", TARGET));
                 System.out.println(String.format("Best Individual:       %s", mostFit.indvString));
-                System.out.println(String.format("Generation Found:      %x", genMostFit));
-                System.out.println(String.format("Score: %x/ %x = %x", fittestInPop.fitness, TARGET.length(), mostFit.fitness/TARGET.length()));
-
+                System.out.println(String.format("Generation Found:      %d", genMostFit));
+                System.out.println(String.format("Score: %d/ %d = %f%s", fittestInPop.fitness, TARGET.length(), ((float) mostFit.fitness/TARGET.length() * 100), "%"));
             }
             currentPop = offspring; 
         }
@@ -298,11 +343,10 @@ public class GA {
         //int printInt = Integer.parseInt(args[5]);           // interval of generation  
 
         //GA algorithm = new GA(popSize, selType, crossoverProb, mutationProb, maxGens, printInt); 
-        GA algorithm = new GA(100, "ts", (float) 0.7, (float) 0.01, 100, 10);
-        
+        GA algorithm = new GA(100, "ts", (float) 0.7, (float) 0.01, 10000, 100);
+        //try a quarter like 2500
         //initaliazing first population and calling the genetic algorithm function that will do the actual algorithm
         Population initialPop = new Population(100, algorithm.TARGET);
-
 
         algorithm.generations(initialPop); 
     }
