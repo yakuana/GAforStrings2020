@@ -137,7 +137,6 @@ public class GA {
     //mutation method
     public Individual mutation(Individual indv) {
         String indvString = indv.getIndv();
-        //final String TARGET = "I think this is a reasonable medium sized string!!";
 
         for (int i = 0; i <= indvString.length() - 1; i+=1) {       //for every character in indvString
             char oldChar = indvString.charAt(i);
@@ -147,6 +146,7 @@ public class GA {
                 //change that char
                 //System.out.println("before m:");
                 //System.out.println(indvString);
+
                 int randInt = rand.nextInt(91);  //92 = ALPAHBET LENGTH
                 char newChar = getChar(randInt);
                 if (newChar == oldChar) {                   //makes sure you are actually changing char
@@ -319,7 +319,6 @@ public class GA {
                 //System.out.println(mostFitFitness);
 
                 System.out.println(String.format("%d ( %d/ %d):  %s", genCount, mostFit.fitness, TARGET.length(), mostFit.getIndv()));
-            }
 
             //if we reach max generation, print missed target and other info
             if (genCount == maxGens) {
