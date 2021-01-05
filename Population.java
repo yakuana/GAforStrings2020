@@ -57,38 +57,16 @@ public class Population {
             // add the new individual to the population 
             initialPopulation[i] = individual; 
         } 
-
         // store the individuals in the Population object 
         this.individualList = initialPopulation;
         //System.out.println(individualList);
         //System.out.println(individualList.length);
     }
-
-
     public void sortPop() {
         // sort individuals in population based on fitness
-        //Arrays.sort(individualList, Comparator.comparing(Individual :: getFitness));   
-        //selectionSort(); 
-
         Arrays.sort(individualList, Individual.IndvFitnessComparator);
 
     }
-
-
-    public Integer rankSumPop() {
-        // returns the sum of all of the Individual 
-        // fitnesses within the individualList 
-
-        int i; 
-        int sum = 0; 
-
-        for (i = 0; i < this.individualList.length - 1; i++) {
-            sum += this.individualList[i].fitness; 
-        }   
-
-        return sum; 
-    }
-
     // return individual with greatest fitness
     public Individual getFittestIndv() {
         Individual fittest;
@@ -97,6 +75,4 @@ public class Population {
         fittest = individualList[mostFitIndex];            
         return fittest;
     }
-
-    
 }
