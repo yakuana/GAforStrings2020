@@ -18,7 +18,7 @@ The chart below shows the percentage of characters correct of a GA run's most fi
 
     Percent Characters Correct:
 
-| Selection Type | 1 | 2 | 3 | 4 | 5 | Average 
+| _selType_ | 1 | 2 | 3 | 4 | 5 | Average 
 | -- | -- | -- | -- | -- | -- | -- |
 | Tournament | 22% | 18% | 10% | 6% | 10% | 13.2% |
 | Boltzmann | 20% | 14% | 14% | 22% | 10% | 16% |     
