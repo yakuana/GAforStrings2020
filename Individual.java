@@ -11,7 +11,6 @@ public class Individual implements Comparable<Individual> {
             indvString = indv; //make indv optional somehow for starting pop
             fitness = calculateFitness();
     }
-    
     //calculates the fitness
     public int calculateFitness() {
         int charsSharedCount = 0;
@@ -32,7 +31,7 @@ public class Individual implements Comparable<Individual> {
         fitness = calculateFitness();
         return fitness; 
     }
-
+    
     public String getIndv() {
         return indvString;
     }
@@ -40,10 +39,10 @@ public class Individual implements Comparable<Individual> {
     @Override
     public int compareTo(Individual indv) {
         if (this.getFitness() > indv.getFitness()) {
-            return -1;
+            return 1;
         }
         else if (this.getFitness() < indv.getFitness()) {
-            return 1;
+            return -1;
         }
         else {
             return 0;
