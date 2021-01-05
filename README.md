@@ -25,6 +25,9 @@ The chart below shows the percentage of characters correct of a GA run's most fi
 |   Rank    | 64% | 64% | 62% | 64% | 62% | 63.2% |     
 
 
+![A bar chart comparing the average percentage of characters correct for each selection type.](/graphs/SelectionAverage.png)
+
+
 Tournament selection does not perform very well. The selection is more random and less biased towards the most fit individuals, which makes it more difficult to narrow down on a string that matches the target string or has the best fitness. We can see that it introduces more randomness as the individual with the highest fitness changes more frequently even when the hgiest fitness itself doesn't change. Boltzmann selection, on the other hand, is very heavily biased towards individuals with the best fitness. It is so biased towards them that it converges on a solution more quickly. However, this isn't an advantage in this case as it converges prematurely and gets rid of randomness. Rank selection Is in the middle of these two. It is biased towards more fit individuals, but because it bases it's decisions off of rank rather than the actual fitness, it prevents one or a couple of individuals from completely dominating the breedign pool/
 
 
@@ -42,6 +45,8 @@ The chart below shows the percentage of characters correct of a GA run's most fi
 | 0.7 | 66% | 66% | 68% | 66% | 62% | 65.6% |     
 | 1.0 | 68% | 58% | 64% | 62% | 72% | 64.8% |     
 
+
+![A bar chart comparing the average percentage of characters correct for a given crossover probability.](/graphs/CrossoverAverage.png)
 
 
 #### MUTATION
@@ -61,6 +66,8 @@ The chart below shows the percentage of characters correct of a GA run's most fi
 | 0.1 | 28% | 28% | 24% | 26% | 26% | 26.4% |     
 | 0.2 | 16% | 16% | 16% | 16% | 16% | 16% |     
 
+
+![A bar chart comparing the average percentage of characters correct for a given crossover probability.](/graphs/MutationAverage.png)
 
 
 ### FITNESS MEASURES
