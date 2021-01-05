@@ -13,6 +13,21 @@ Experiment Results:
 
 SELECTION METHODS
 
+The chart below shows the percentage of characters correct of a GA run's most fit individual compared to the target string. Each selection type (labelled "selType" below) was run 5 times and averaged in the last column. The target string was "I think this is a reasonable medium sized string!!", and the genetic alogrorithm had a a 0.7 crossover probability, 0.01 mutation probability, 50 indiviudals per population, and ran 500 times.
+
+        Percent Characters Correct:
+_____________Run_#__-->____________________________
+|__selType__|__1__|__2__|__3__|__4__|__5__|__avg__|
+| Tournament| 68% | 64% | 66% | 68% | 66% | 66.4% |     
+|___________|_____|_____|_____|_____|_____|_______|
+| Boltzmann | 68% | 64% | 64% | 58% | 66% | 64%   |     
+|___________|_____|_____|_____|_____|_____|_______|
+|   Rank    |     |     |     |     |     |       |     
+|___________|_____|_____|_____|_____|_____|_______|
+
+
+
+
 
 CROSSOVER PROBABILITIES
 0.0, 0.3, 0.7, 1.0
@@ -43,5 +58,7 @@ This code provides three different selection sorts for a given generation of ind
     The resulting terminal entry should look like this but with the parameters you choose:
         
         java GA 100 ts 0.7 0.01 10000 100
+
+    Change/set target string in GA.java at line 6
    
 Happy Coding!
