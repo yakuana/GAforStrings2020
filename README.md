@@ -16,7 +16,6 @@ GOAL STRING:
 
 The chart below shows the percentage of characters correct of a GA run's most fit individual compared to the target string. Each selection type (labelled "selType" below) was run 5 times and averaged in the last column. The target string was "I think this is a reasonable medium sized string!!", and the genetic alogrorithm had a 0.7 crossover probability, 0.01 mutation probability, 50 indiviudals per population, and ran 500 times. (AKA:"java GA 50 (ts/rs/bs) 0.7 0.01 500 20")
 
-    Percent Characters Correct:
 
 | _selType_ | 1 | 2 | 3 | 4 | 5 | Average 
 | -- | -- | -- | -- | -- | -- | -- |
@@ -36,7 +35,6 @@ Tournament selection does not perform very well. The selection is more random an
 
 The chart below shows the percentage of characters correct of a GA run's most fit individual compared to the target string. Each crossover probability was run 5 times and averaged in the last column. The target string was "I think this is a reasonable medium sized string!!", and the genetic alogrorithm used rank selection, had a 0.01 mutation probability, 50 indiviudals per population, and ran 500 times. (AKA:"java GA 50 "ts" (0.0/0.3/0.7/1.0) 0.01 500 20")
 
-        Percent Characters Correct:
         
 | _crossProb_ | 1 | 2 | 3 | 4 | 5 | Average |
 | -- | -- | -- | -- | -- | -- | -- |
@@ -54,7 +52,6 @@ The chart below shows the percentage of characters correct of a GA run's most fi
 0.0, 0.001, 0.005, 0.01, 0.05, 0.1, 0.2
 The chart below shows the percentage of characters correct of a GA run's most fit individual compared to the target string. Each mutation probability was run 5 times and averaged in the last column. The target string was "I think this is a reasonable medium sized string!!", and the genetic alogrorithm used rank selection, had a 0.7 crossover probability, 50 indiviudals per population, and ran 500 times. (AKA:"java GA 50 "rs" 0.7 (0.0/0.001/0.005/0.01/0.01/0.1/0.1) 0.01 500 20")
 
-        Percent Characters Correct:
 
 | _mutationProb_ | 1 | 2 | 3 | 4 | 5 | Average |
 | -- | -- | -- | -- | -- | -- | -- | 
