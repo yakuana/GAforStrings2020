@@ -27,38 +27,27 @@ public class GA {
 
     
     //return an individual selected from population using rank selection  
-    public Individual rankSelection(Population currentPop) {
+    public Individual rankSelection(Population currentPop) { 
         int i; 
-        int rankSum = 0; 
-        float greatestProb = 0; 
-        float randProb; 
-        Random random = new Random(); 
+        int ranksum = currentPop.rankSumPop();       // sum of all fitnesses 
+        Random random = new Random();  
 
-        // get the sum of the population 
-        rankSum = currentPop.rankSumPop(); 
-        
-        // largest possible float 
-        greatestProb = currentPop.getFittestIndv().fitness / rankSum;
-        
-        // get random probability 
-        randProb = random.nextFloat() * greatestProb; 
-        
-        // assign Individuals' probability to rank(i)/sum
-        for (i = 0; i < currentPop.individualList.length - 1; i++) {
-            
-            // get the probability of the Individual 
-            float probability = currentPop.individualList[i].fitness / rankSum; 
+        // rank the individuals from least to greatest 
+        currentPop.sortPop();
 
-            // return the individual if it has a probability
-            // greater than or equal to the randomly generated probability 
-            if (probability >= randProb) {
-                return currentPop.individualList[i];
+        int bestFitness = currentPop.individualList[currentPop.popSize - 1].fitness; 
+        float highestProb = ranksum / bestFitness;                       
+        float randProb = random.nextFloat() * (highestProb);   // get random probability                
+
+        // find the parent with a probability value higher or equal to the random probability 
+        for (i = 0; i < currentPop.popSize - 1; i++) {
+            if ((currentPop.individualList[i].fitness / ranksum) >= randProb) {
+                return currentPop.individualList[i]; 
             }
         }
-        
-        // if individual has not been chosen, 
-        // use the individual with the greatest fitness
-        return currentPop.getFittestIndv();
+
+        // return best fit individual ** should  never be reached ** 
+        return currentPop.getFittestIndv(); 
     }
     
     // return an individual from the population using tournament selection  
@@ -131,16 +120,14 @@ public class GA {
         String SPACE = " ";
         String ALL_ASCII = LOWER_CASE + UPPER_CASE + DIGITS + SYMBOLS + SPACE; 
 
-        //char[] alphabet = new char[ALL_ASCII.length()];
         char myChar = ALL_ASCII.charAt(index);
-
+        
         return myChar;
     }
 
     //mutation method
     public Individual mutation(Individual indv) {
         String indvString = indv.getIndv();
-        //final String TARGET = "I think this is a reasonable medium sized string!!";
 
         for (int i = 0; i <= indvString.length() - 1; i+=1) {       //for every character in indvString
             char oldChar = indvString.charAt(i);
@@ -148,20 +135,16 @@ public class GA {
             float randProb = rand.nextFloat();              //makes random float between 0 and 1
             if (randProb <= mutationProb) {                 //if true, do mutation
                 //change that char
-                //System.out.println("before m:");
-                //System.out.println(indvString);
+
                 int randInt = rand.nextInt(91);  //92 = ALPAHBET LENGTH
                 char newChar = getChar(randInt);
                 if (newChar == oldChar) {                   //makes sure you are actually changing char
                     randInt += 1;
                     newChar = getChar(randInt);
                 }
+
                 String newCharString = String.valueOf(newChar);
                 indvString = indvString.substring(0, i) + newCharString + indvString.substring(i+1, indvString.length());
-                //System.out.println(newCharString);
-                //System.out.println(i);
-                //System.out.println("after m:");         //new mutated string
-                //System.out.println(indvString);
             }
         }
         Individual mutatedIndv = new Individual(TARGET, indvString);
@@ -226,7 +209,7 @@ public class GA {
             } else if (selType.equals("rs")) {
                 p1 = rankSelection(currentPop);
                 p2 = rankSelection(currentPop);
-                System.out.println("rankselection");
+                // System.out.println("rankselection");
             } else {
                 System.out.print("There was an error! with selection!!");
                 break;
@@ -340,19 +323,18 @@ public class GA {
     }
 
     public static void main(String[] args) {
-        //int popSize = Integer.parseInt(args[0]);
+        int popSize = Integer.parseInt(args[0]);            // population size 
+        String selType = args[1];                           // type of selection
+        float crossoverProb = Float.parseFloat(args[2]);    // probability of crossover
+        float mutationProb = Float.parseFloat(args[3]);     // probability of mutation
+        int maxGens = Integer.parseInt(args[4]);            // max num of generations 
+        int printInt = Integer.parseInt(args[5]);           // interval of generation  
 
-        //String selType = args[1];                           // type of selection
-        //float crossoverProb = Float.parseFloat(args[2]);    // probability of crossover
-        //float mutationProb = Float.parseFloat(args[3]);     // probability of mutation
-        //int maxGens = Integer.parseInt(args[4]);            // max num of generations 
-        //int printInt = Integer.parseInt(args[5]);           // interval of generation  
-
-        //GA algorithm = new GA(popSize, selType, crossoverProb, mutationProb, maxGens, printInt); 
-        GA algorithm = new GA(100, "bs", (float) 0.7, (float) 0.01, 10000, 100);
+        GA algorithm = new GA(popSize, selType, crossoverProb, mutationProb, maxGens, printInt); 
         
         //initaliazing first population and calling the genetic algorithm function that will do the actual algorithm
         Population initialPop = new Population(100, algorithm.TARGET);
 
         algorithm.generations(initialPop); 
     }
+}

@@ -94,7 +94,7 @@ public class Population {
         Individual fittest;
         sortPop();
         int mostFitIndex = popSize - 2; 
-        fittest = individualList[mostFitIndex];            //this is the problem!!! right now I changed the index to 0!
+        fittest = individualList[mostFitIndex];            
         return fittest;
     }
 
