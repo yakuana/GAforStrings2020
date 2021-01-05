@@ -1,3 +1,4 @@
+
 import java.util.Random;
 
 public class GA {
@@ -355,4 +356,3 @@ public class GA {
 
         algorithm.generations(initialPop); 
     }
-}
