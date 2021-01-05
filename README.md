@@ -20,12 +20,13 @@ The chart below shows the percentage of characters correct of a GA run's most fi
 
 | Selection Type | 1 | 2 | 3 | 4 | 5 | Average 
 | -- | -- | -- | -- | -- | -- | -- |
-| Tournament | 22% | 18% | 10% | 6 % | 10% | 13.2% |
-| Boltzmann | 20% | 14% | 14% | 22% | 10% | 16%   |     
+| Tournament | 22% | 18% | 10% | 6% | 10% | 13.2% |
+| Boltzmann | 20% | 14% | 14% | 22% | 10% | 16% |     
 |   Rank    | 64% | 64% | 62% | 64% | 62% | 63.2% |     
 
 
 Tournament selection does not perform very well. The selection is more random and less biased towards the most fit individuals, which makes it more difficult to narrow down on a string that matches the target string or has the best fitness. We can see that it introduces more randomness as the individual with the highest fitness changes more frequently even when the hgiest fitness itself doesn't change. Boltzmann selection, on the other hand, is very heavily biased towards individuals with the best fitness. It is so biased towards them that it converges on a solution more quickly. However, this isn't an advantage in this case as it converges prematurely and gets rid of randomness. Rank selection Is in the middle of these two. It is biased towards more fit individuals, but because it bases it's decisions off of rank rather than the actual fitness, it prevents one or a couple of individuals from completely dominating the breedign pool/
+
 
 
 #### CROSSOVER PROBABILITIES
@@ -42,7 +43,9 @@ The chart below shows the percentage of characters correct of a GA run's most fi
 | 1.0 | 68% | 58% | 64% | 62% | 72% | 64.8% |     
 
 
+
 #### MUTATION
+
 0.0, 0.001, 0.005, 0.01, 0.05, 0.1, 0.2
 The chart below shows the percentage of characters correct of a GA run's most fit individual compared to the target string. Each mutation probability was run 5 times and averaged in the last column. The target string was "I think this is a reasonable medium sized string!!", and the genetic alogrorithm used rank selection, had a 0.7 crossover probability, 50 indiviudals per population, and ran 500 times. (AKA:"java GA 50 "rs" 0.7 (0.0/0.001/0.005/0.01/0.01/0.1/0.1) 0.01 500 20")
 
@@ -59,7 +62,8 @@ The chart below shows the percentage of characters correct of a GA run's most fi
 | 0.2 | 16% | 16% | 16% | 16% | 16% | 16% |     
 
 
-#### FITNESS MEASURES
+
+### FITNESS MEASURES
 Here are 3 possible fitness measures:
 
 1) Same number of character types (lowercase letter, uppercase letter, symbol, number, or space) between string and target string.
@@ -69,12 +73,14 @@ Here are 3 possible fitness measures:
 3) Percentage of character pairs in the correct location (i.e. Th%3 would have 1 pair of characters (Th) in the correct location for the target string This)
 
 
+
 ### Summary of Code:
 Given a population size (popSize), selection type (selType), crossover probability (crossoverProb), mutation probability (mutationProb), maximum generation (maxGen), and print interval (printerval), this program will run a genetic algorithm to try to reach a target string.
 
 It will first create an inital population of size popSize full of individuals of random strings generated using the alphabet in string ALL_ASCII. The population is sorted in order from lowest to highest fitness. Parents are selected through either tournament, rank, or Boltzmann selection, and every two parents return two children. If reocmbination is done (decided using a random probability), then the children a the result of one-point crossover. If not, the parents are returned as children. The children then undergo mutation, which is determined probabilistically for each character in the string. 
 
 Generations of populations are created until we either 1) hit the maximum number of generations or 2) the individual with the highest fitness in a population is equal to the target string.
+
 
 
 ## How to run Code: 
